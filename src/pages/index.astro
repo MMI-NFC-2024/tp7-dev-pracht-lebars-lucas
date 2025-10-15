@@ -1,116 +1,106 @@
 ---
-import PlotFigure from "../components/PlotFigure.astro";
 import Layout from "../layouts/Layout.astro";
-import * as Plot from "@observablehq/plot";
-import penguins from "../assets/penguins.json";
-// Import des styles CSS de Leaflet pour l'affichage de la carte
-import "leaflet/dist/leaflet.css";
-
-import * as Plot from "@observablehq/plot";
-import PlotFigure from "../components/PlotFigure.astro";
-import departements from "../assets/departements.geojson.json";
-import populationMain from "../assets/populationMain.json";
-let selectedYear = 2015;
-let selectedSex = "Total";
-let selectedAge = "Total";
-const optionPlot = {
-  projection: {
-    type: "mercator", //utiliser une projection adaptée
-    domain: departements, // Domain pour centrer la carte sur la france
-  },
-  color: {
-    type: "quantile",
-    n: 8,
-    scheme: "Greens",
-    label: "Population en centaine de milliers",
-    legend: true,
-    transform: (d) => Math.round(d / 100000),
-  },
-  marks: [
-    Plot.geo(departements, {
-      fill: (d) => {
-        const deptName = d.properties.nom; //Nom du département dans le geoJson
-        const popData = populationMain.find(
-          (p) =>
-            p.Géographie === deptName &&
-            p.Période === selectedYear &&
-            p.Sexe === selectedSex &&
-            p["Âge"] === selectedAge
-        ); //trouver les données correspondantes
-        return popData.Valeur; //Coloriser en fonction de la valeur
-      },
-      stroke: "#999",
-      title: (d) => {
-        const deptName = d.properties.nom; //Nom du département dans le geoJson
-        const popData = populationMain.find(
-          (p) =>
-            p.Géographie === deptName &&
-            p.Période === selectedYear &&
-            p.Sexe === selectedSex &&
-            p["Âge"] === selectedAge
-        ); //trouver les données correspondantes
-        return `${deptName} : ${popData.Valeur}`; //Coloriser en fonction de la valeur
-      },
-      tip: true,
-    }),
-  ],
-};
 ---
 
-<Layout>
-  <h1 class="text-2xl">Test Astro et Plot (Observablehq)</h1>
-  
-  <PlotFigure
-    options={{
-      // Opt. Construit une figure/figcation.
-      title: "For charts, an informative title",
-      subtitle: "Subtitle to follow with additional context",
-      caption: "Figure 1. A chart with a title, subtitle, and caption.",
-      // Sur le svg lui-même
-      ariaLabel: "label sur le svg lui même",
-      marks: [
-        Plot.frame(),
-        Plot.text(["Titles, subtitles, captions, and annotations assist inter­pretation by telling the reader what's interesting. Don't make the reader work to find what you already know."], {lineWidth: 30, frameAnchor: "middle"}),
-        Plot.dot(penguins, {
-          x: "culmen_length_mm",
-          y: "culmen_depth_mm",
-          stroke: "species",
-        }),
-      ],
-    }}
-  />
-  
+<Layout title="Accueil - DataViz Studio">
+  <div class="max-w-6xl mx-auto">
+    <!-- Hero Section -->
+    <section class="text-center py-16">
+      <h1 class="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+        DataViz Studio
+      </h1>
+      <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        Explorez des visualisations de données interactives avec Observable Plot et Leaflet.js
+      </p>
+      <div class="flex gap-4 justify-center">
+        <a 
+          href="/penguins" 
+          class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg"
+        >
+          Commencer l'exploration
+        </a>
+        <a 
+          href="#visualizations" 
+          class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg border-2 border-blue-600"
+        >
+          En savoir plus
+        </a>
+      </div>
+    </section>
 
+    <!-- Cards Section -->
+    <section id="visualizations" class="grid md:grid-cols-3 gap-8 py-16">
+      <!-- Card 1 -->
+      <a 
+        href="/penguins" 
+        class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition transform hover:-translate-y-2"
+      >
+        <div class="text-5xl mb-4">🐧</div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">Penguins Dataset</h2>
+        <p class="text-gray-600 mb-4">
+          Analyse des manchots avec Observable Plot : distribution, corrélations et accessibilité.
+        </p>
+        <span class="text-blue-600 font-semibold hover:text-blue-800">
+          Explorer →
+        </span>
+      </a>
 
+      <!-- Card 2 -->
+      <a 
+        href="/population" 
+        class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition transform hover:-translate-y-2"
+      >
+        <div class="text-5xl mb-4">🗺️</div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">Population France</h2>
+        <p class="text-gray-600 mb-4">
+          Carte interactive GeoJSON de la population par département avec filtres dynamiques.
+        </p>
+        <span class="text-blue-600 font-semibold hover:text-blue-800">
+          Explorer →
+        </span>
+      </a>
 
+      <!-- Card 3 -->
+      <a 
+        href="/etablissements" 
+        class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition transform hover:-translate-y-2"
+      >
+        <div class="text-5xl mb-4">📍</div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">Établissements</h2>
+        <p class="text-gray-600 mb-4">
+          Carte Leaflet des établissements universitaires français avec localisation précise.
+        </p>
+        <span class="text-blue-600 font-semibold hover:text-blue-800">
+          Explorer →
+        </span>
+      </a>
+    </section>
 
-  <div id="map" style="height: 600px;"></div>
-<script>
-import listeEtablissements from "../assets/listeEtablissements.json";
-
-// Import de la bibliothèque Leaflet pour créer la carte interactive
-import L from "leaflet";
-// Dans l'élément d'ID "map" : création de la carte centrée sur la France (lat: 46.6033, lon: 1.883) avec un zoom niveau 6
-const map = L.map("map").setView([46.6033, 1.883], 6);
-
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-
-// Ajouter les points des établissements sur la carte
-listeEtablissements.forEach(est => {
-  const marker = L.marker([est.lat, est.lon]).addTo(map);
-  marker.bindPopup(`<b>${est.name}</b>`); // Ajout d'une popup avec le nom de l'établissement
-});
-
-// ... https://leafletjs.com/examples/quick-start/
-// ...
-</script>
-
-
-
-
-
-<PlotFigure options={optionPlot} />
-
+    <!-- Features Section -->
+    <section class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-12 my-16">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Technologies utilisées</h2>
+      <div class="grid md:grid-cols-4 gap-6">
+        <div class="text-center">
+          <div class="text-4xl mb-3">⚡</div>
+          <h3 class="font-semibold text-gray-800 mb-2">Astro</h3>
+          <p class="text-sm text-gray-600">Framework moderne</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-3">📊</div>
+          <h3 class="font-semibold text-gray-800 mb-2">Observable Plot</h3>
+          <p class="text-sm text-gray-600">Visualisations puissantes</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-3">🗺️</div>
+          <h3 class="font-semibold text-gray-800 mb-2">Leaflet.js</h3>
+          <p class="text-sm text-gray-600">Cartes interactives</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-3">🎨</div>
+          <h3 class="font-semibold text-gray-800 mb-2">Tailwind CSS</h3>
+          <p class="text-sm text-gray-600">Design moderne</p>
+        </div>
+      </div>
+    </section>
+  </div>
 </Layout>

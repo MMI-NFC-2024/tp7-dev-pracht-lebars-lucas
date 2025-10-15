@@ -1,0 +1,60 @@
+---
+import PlotFigure from "../components/PlotFigure.astro";
+import Layout from "../layouts/Layout.astro";
+import * as Plot from "@observablehq/plot";
+import penguins from "../assets/penguins.json";
+---
+
+<Layout title="Penguins Dataset - DataViz Studio">
+  <div class="max-w-6xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-800 mb-3">🐧 Penguins Dataset</h1>
+      <p class="text-lg text-gray-600">
+        Analyse interactive des manchots : distribution, corrélations et accessibilité
+      </p>
+    </div>
+
+    <!-- Visualization Card -->
+    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Distribution des espèces</h2>
+      <p class="text-gray-600 mb-6">
+        Visualisation accessible avec titre, sous-titre et légende pour faciliter l'interprétation des données.
+      </p>
+      
+      <PlotFigure
+        options={{
+          title: "For charts, an informative title",
+          subtitle: "Subtitle to follow with additional context",
+          caption: "Figure 1. A chart with a title, subtitle, and caption.",
+          ariaLabel: "label sur le svg lui même",
+          marks: [
+            Plot.frame(),
+            Plot.text(["Titles, subtitles, captions, and annotations assist inter­pretation by telling the reader what's interesting. Don't make the reader work to find what you already know."], {lineWidth: 30, frameAnchor: "middle"}),
+            Plot.dot(penguins, {
+              x: "culmen_length_mm",
+              y: "culmen_depth_mm",
+              stroke: "species",
+            }),
+          ],
+        }}
+      />
+    </div>
+
+    <!-- Info Cards -->
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-blue-50 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-blue-900 mb-2">📊 Accessibilité</h3>
+        <p class="text-blue-800 text-sm">
+          Ce graphique respecte les normes d'accessibilité avec des titres descriptifs, des sous-titres et des annotations pour faciliter la compréhension.
+        </p>
+      </div>
+      <div class="bg-purple-50 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-purple-900 mb-2">🔍 Données</h3>
+        <p class="text-purple-800 text-sm">
+          Dataset des manchots de Palmer incluant les mesures du bec (culmen) et les espèces observées en Antarctique.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>

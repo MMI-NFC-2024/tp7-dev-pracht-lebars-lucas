@@ -1,0 +1,106 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Accueil - DataViz Studio">
+  <div class="max-w-6xl mx-auto">
+    <!-- Hero Section -->
+    <section class="text-center py-16">
+      <h1 class="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+        DataViz Studio
+      </h1>
+      <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        Explorez des visualisations de données interactives avec Observable Plot et Leaflet.js
+      </p>
+      <div class="flex gap-4 justify-center">
+        <a 
+          href="/penguins" 
+          class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg"
+        >
+          Commencer l'exploration
+        </a>
+        <a 
+          href="#visualizations" 
+          class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg border-2 border-blue-600"
+        >
+          En savoir plus
+        </a>
+      </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section id="visualizations" class="grid md:grid-cols-3 gap-8 py-16">
+      <!-- Card 1 -->
+      <a 
+        href="/penguins" 
+        class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition transform hover:-translate-y-2"
+      >
+        <div class="text-5xl mb-4">🐧</div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">Penguins Dataset</h2>
+        <p class="text-gray-600 mb-4">
+          Analyse des manchots avec Observable Plot : distribution, corrélations et accessibilité.
+        </p>
+        <span class="text-blue-600 font-semibold hover:text-blue-800">
+          Explorer →
+        </span>
+      </a>
+
+      <!-- Card 2 -->
+      <a 
+        href="/population" 
+        class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition transform hover:-translate-y-2"
+      >
+        <div class="text-5xl mb-4">🗺️</div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">Population France</h2>
+        <p class="text-gray-600 mb-4">
+          Carte interactive GeoJSON de la population par département avec filtres dynamiques.
+        </p>
+        <span class="text-blue-600 font-semibold hover:text-blue-800">
+          Explorer →
+        </span>
+      </a>
+
+      <!-- Card 3 -->
+      <a 
+        href="/etablissements" 
+        class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition transform hover:-translate-y-2"
+      >
+        <div class="text-5xl mb-4">📍</div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">Établissements</h2>
+        <p class="text-gray-600 mb-4">
+          Carte Leaflet des établissements universitaires français avec localisation précise.
+        </p>
+        <span class="text-blue-600 font-semibold hover:text-blue-800">
+          Explorer →
+        </span>
+      </a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-12 my-16">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Technologies utilisées</h2>
+      <div class="grid md:grid-cols-4 gap-6">
+        <div class="text-center">
+          <div class="text-4xl mb-3">⚡</div>
+          <h3 class="font-semibold text-gray-800 mb-2">Astro</h3>
+          <p class="text-sm text-gray-600">Framework moderne</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-3">📊</div>
+          <h3 class="font-semibold text-gray-800 mb-2">Observable Plot</h3>
+          <p class="text-sm text-gray-600">Visualisations puissantes</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-3">🗺️</div>
+          <h3 class="font-semibold text-gray-800 mb-2">Leaflet.js</h3>
+          <p class="text-sm text-gray-600">Cartes interactives</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-3">🎨</div>
+          <h3 class="font-semibold text-gray-800 mb-2">Tailwind CSS</h3>
+          <p class="text-sm text-gray-600">Design moderne</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

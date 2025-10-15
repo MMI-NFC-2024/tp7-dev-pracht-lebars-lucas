@@ -1,0 +1,55 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "leaflet/dist/leaflet.css";
+---
+
+<Layout title="Établissements - DataViz Studio">
+  <div class="max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-800 mb-3">📍 Établissements Universitaires</h1>
+      <p class="text-lg text-gray-600">
+        Carte interactive des établissements universitaires français
+      </p>
+    </div>
+
+    <!-- Map Card -->
+    <div class="bg-white rounded-xl shadow-lg p-8">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">Localisation sur la carte</h2>
+      
+      <div id="map" class="w-full h-[600px] rounded-lg border border-gray-200"></div>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="grid md:grid-cols-2 gap-6 mt-8">
+      <div class="bg-green-50 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-green-900 mb-2">🎓 Établissements</h3>
+        <p class="text-green-800 text-sm">
+          Visualisez la répartition géographique des établissements universitaires sur tout le territoire français.
+        </p>
+      </div>
+      <div class="bg-indigo-50 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-indigo-900 mb-2">🗺️ Leaflet.js</h3>
+        <p class="text-indigo-800 text-sm">
+          Carte interactive avec OpenStreetMap permettant le zoom et la navigation fluide.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  import listeEtablissements from "../assets/listeEtablissements.json";
+  import L from "leaflet";
+
+  const map = L.map("map").setView([46.6033, 1.883], 6);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  listeEtablissements.forEach(est => {
+    const marker = L.marker([est.lat, est.lon]).addTo(map);
+    marker.bindPopup(`<b>${est.name}</b>`);
+  });
+  </script>
+</Layout>
