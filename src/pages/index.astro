@@ -5,10 +5,61 @@ import * as Plot from "@observablehq/plot";
 import penguins from "../assets/penguins.json";
 // Import des styles CSS de Leaflet pour l'affichage de la carte
 import "leaflet/dist/leaflet.css";
+
+import * as Plot from "@observablehq/plot";
+import PlotFigure from "../components/PlotFigure.astro";
+import departements from "../assets/departements.geojson.json";
+import populationMain from "../assets/populationMain.json";
+let selectedYear = 2015;
+let selectedSex = "Total";
+let selectedAge = "Total";
+const optionPlot = {
+  projection: {
+    type: "mercator", //utiliser une projection adaptée
+    domain: departements, // Domain pour centrer la carte sur la france
+  },
+  color: {
+    type: "quantile",
+    n: 8,
+    scheme: "Greens",
+    label: "Population en centaine de milliers",
+    legend: true,
+    transform: (d) => Math.round(d / 100000),
+  },
+  marks: [
+    Plot.geo(departements, {
+      fill: (d) => {
+        const deptName = d.properties.nom; //Nom du département dans le geoJson
+        const popData = populationMain.find(
+          (p) =>
+            p.Géographie === deptName &&
+            p.Période === selectedYear &&
+            p.Sexe === selectedSex &&
+            p["Âge"] === selectedAge
+        ); //trouver les données correspondantes
+        return popData.Valeur; //Coloriser en fonction de la valeur
+      },
+      stroke: "#999",
+      title: (d) => {
+        const deptName = d.properties.nom; //Nom du département dans le geoJson
+        const popData = populationMain.find(
+          (p) =>
+            p.Géographie === deptName &&
+            p.Période === selectedYear &&
+            p.Sexe === selectedSex &&
+            p["Âge"] === selectedAge
+        ); //trouver les données correspondantes
+        return `${deptName} : ${popData.Valeur}`; //Coloriser en fonction de la valeur
+      },
+      tip: true,
+    }),
+  ],
+};
 ---
 
 <Layout>
   <h1 class="text-2xl">Test Astro et Plot (Observablehq)</h1>
+  
   <PlotFigure
     options={{
       // Opt. Construit une figure/figcation.
@@ -29,6 +80,10 @@ import "leaflet/dist/leaflet.css";
     }}
   />
   
+
+
+
+
   <div id="map" style="height: 600px;"></div>
 <script>
 import listeEtablissements from "../assets/listeEtablissements.json";
@@ -51,4 +106,11 @@ listeEtablissements.forEach(est => {
 // ... https://leafletjs.com/examples/quick-start/
 // ...
 </script>
+
+
+
+
+
+<PlotFigure options={optionPlot} />
+
 </Layout>
